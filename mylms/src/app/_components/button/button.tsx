@@ -1,55 +1,55 @@
-import { Loading } from "../loading";
-import { ButtonProps } from "./button.types";
+"use client";
+import { Size } from "../types/size.type";
 import classNames from "classnames";
+import { ButtonProps, ButtonShape } from "./button.types";
+import { Loading } from "../loading";
 
-const sizeClasses: Record<string, string> = {
+const sizeClasses: Record<Size, string> = {
   tiny: "btn-xs",
   small: "btn-sm",
   normal: "",
   large: "btn-lg",
 };
 
-const shapeClasses: Record<string, string> = {
+const shapeClasses: Record<ButtonShape, string> = {
   wide: "btn-wide",
   full: "btn-block",
   square: "btn-square",
   default: "",
 };
 
-const Button: React.FC<ButtonProps> = ({
+export const Button: React.FC<ButtonProps> = ({
   variant,
   size = "normal",
-  isDiabled = false,
+  isDisabled = false,
   isOutline = false,
   shape = "default",
   isLoading = false,
   loadingType = "spinner",
-  loadingText = "sending data ....",
+  loadingText = "Sending...",
   type = "button",
   isLink = false,
-  animatedIcon = false,
   children,
   className,
+  animatedIcon = false,
   ...rest
 }: ButtonProps) => {
   const classes = classNames(
     "btn",
     className,
+    { [`btn-${variant}`]: variant },
+    { [`${sizeClasses[size]}`]: size },
     { "btn-outline": isOutline },
     { "btn-link": isLink },
+    { [`${shapeClasses[shape]}`]: shape },
     { "animated-icon": animatedIcon },
-    { "pointer-events-none opacity-80": isLoading },
-    { [`btn-${variant}`]: variant },
-    { [`btn-${sizeClasses[size]}`]: size },
-    { [`${shapeClasses[shape]}`]: shape }
+    { "pointer-events-none opacity-80": isLoading }
   );
 
   return (
-    <button type={type} disabled={isDiabled} {...rest} className={classes}>
+    <button type={type} disabled={isDisabled} className={classes} {...rest}>
       {isLoading && <Loading type={loadingType} />}
       {isLoading ? loadingText : children}
     </button>
   );
 };
-
-export default Button;

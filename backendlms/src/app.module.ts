@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoursesModule } from './courses/courses.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { BlogModule } from './blog/blog.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       rootPath: join(__dirname, '..', 'static'), // Serve files from the 'static' directory
       serveRoot: '/static', // Expose static files at '/static'
     }),
-    CoursesModule, // Your CoursesModule
+    CoursesModule,
+    BlogModule, // Your CoursesModule
   ],
   controllers: [AppController],
   providers: [AppService],
