@@ -1,0 +1,57 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+@import "../tailwind/components/components.css";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+html {
+  /* font-family: var(--font-lato); */
+  font-family: var(--font-figtree);
+}
+
+:lang(en) {
+  /* font-family: var(--font-lato); */
+  font-family: var(--font-figtree);
+}
+
+.gradient {
+  @apply bg-gradient-to-r from-gradient-first to-gradient-second text-transparent bg-clip-text;
+}
+
+.gradient-reverse {
+  @apply bg-gradient-to-r from-gradient-second to-gradient-first text-transparent bg-clip-text;
+}
+
+.animated-icon {
+  & > * {
+    @apply transition-all;
+  }
+  &:hover {
+    @apply text-white;
+    & > * {
+      @apply -translate-x-2;
+    }
+  }
+}
+
+/* 
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+} */
