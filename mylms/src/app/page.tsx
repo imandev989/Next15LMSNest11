@@ -3,7 +3,10 @@ import { HomeHeroSection } from "./_components/home-hero-section/home-hero-secti
 import { CourseCardList } from "./(courses)/_components/course-card-list";
 import { homeFeatures } from "@/data/home-features";
 import Feature from "./_components/feature/feature";
-import { IconArrowLeftFill } from "./_components/icons/icons";
+import {
+  IconArrowLeftFill,
+  IconArrowRightFill,
+} from "./_components/icons/icons";
 import { Button } from "./_components/button";
 import { BlogPostSummary } from "@/types/blog-post-summary.interface";
 import { BlogPostCardList } from "./(blog)/_components/blog-post-card-list";
@@ -75,7 +78,7 @@ export default async function Home() {
               animatedIcon={true}
             >
               Next.js and Nest.js Courses
-              <IconArrowLeftFill fill="currentColor" />
+              <IconArrowRightFill fill="currentColor" />
             </Button>
             <Button
               variant="neutral"
@@ -105,7 +108,7 @@ export default async function Home() {
             animatedIcon={true}
           >
             All Articles
-            <IconArrowLeftFill fill="currentColor" />
+            <IconArrowRightFill fill="currentColor" />
           </Button>
         </div>
         <BlogPostCardList posts={newestBlogPosts} />
