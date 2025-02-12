@@ -3,9 +3,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const menuItems: NavigationMenuItem[] = [
-  { title: "blog", href: "/blog" },
-  { title: "Courses", href: "/courses" },
   { title: "Home", href: "/" },
+  { title: "Courses", href: "/courses" },
+  { title: "blog", href: "/blog" },
 ];
 
 const TopNavigation: React.FC = () => {
