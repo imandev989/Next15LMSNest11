@@ -25,6 +25,14 @@ export class CoursesService {
     const newCourse = this.coursesRepository.create(createCourseDto); // Create a new course entity
     return this.coursesRepository.save(newCourse); // Save the new course in the database
   }
+
+  // Method to get all slugs as an array of strings
+  async findAll(): Promise<string[]> {
+    // Use select to only fetch the slugs, then map to an array of slugs
+    const courses = await this.coursesRepository.find({ select: ['slug'] });
+    return courses.map((course) => course.slug); // Map to an array of slugs
+  }
+
   // create(createCourseDto: CreateCourseDto) {
   //   return 'This action adds a new course';
   // }
@@ -33,10 +41,10 @@ export class CoursesService {
   //   return `This action returns all courses`;
   // }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} course`;
-  // }
-
+  // Method to find a course by its slug
+  async findOneBySlug(slug: string): Promise<Course | undefined> {
+    return this.coursesRepository.findOne({ where: { slug } });
+  }
   // update(id: number, updateCourseDto: UpdateCourseDto) {
   //   return `This action updates a #${id} course`;
   // }

@@ -20,7 +20,13 @@ export class CoursesController {
     return this.coursesService.create(createCourseDto);
   }
 
-  // @Get()
+  // Define the GET route for 'slugs' to return only the slugs of all courses
+  @Get('slugs')
+  async findAllSlugs() {
+    return this.coursesService.findAll(); // This will return only the slugs
+  }
+
+  // @Get('newest')
   // findAll() {
   //   return this.coursesService.findAll();
   // }
@@ -31,10 +37,11 @@ export class CoursesController {
     return this.coursesService.getNewestCourses(limit);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.coursesService.findOne(+id);
-  // }
+  // Route to find a course by its slug
+  @Get(':slug')
+  findOne(@Param('slug') slug: string) {
+    return this.coursesService.findOneBySlug(slug); // Pass slug to the service
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {

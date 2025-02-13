@@ -1,5 +1,7 @@
 import Image from "next/image";
 import { Button } from "../button";
+// import Lottie from "react-lottie-player";
+// import animationData from "@/data/Animation .gif";
 
 export const HomeHeroSection: React.FC = () => {
   return (
@@ -37,6 +39,12 @@ export const HomeHeroSection: React.FC = () => {
           width={702}
           height={521}
         />
+        {/* <Lottie
+          loop
+          animationData={animationData}
+          play
+          style={{ width: 702, height: 521 }}
+        /> */}
       </div>
     </section>
   );

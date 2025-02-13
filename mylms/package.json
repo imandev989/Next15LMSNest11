@@ -16,7 +16,8 @@
     "colord": "^2.9.3",
     "next": "^15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-lottie-player": "^2.1.0"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.4",

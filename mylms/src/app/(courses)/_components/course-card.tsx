@@ -41,7 +41,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           <Price price={basePrice} size="small" />
         </div>
         <Link
-          href={`/course/${slug}`}
+          href={`/courses/${slug}`}
           className="card-footer justify-center animated-icon"
         >
           View Course Details
