@@ -1,7 +1,7 @@
 // import Footer from "./_components/footer/footer";
 // import Header from "./_components/header/header";
 
-import Footer from "./_components/footer/footer";
+import { Footer } from "./_components/footer";
 import Header from "./_components/header/header";
 import "./globals.css";
 
@@ -70,7 +70,7 @@ export default function RootLayout({
       <body className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content bg-white text-base-100">
         <Header />
         <main>{children}</main>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

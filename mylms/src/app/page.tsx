@@ -3,30 +3,31 @@ import { HomeHeroSection } from "./_components/home-hero-section/home-hero-secti
 import { CourseCardList } from "./(courses)/_components/course-card-list";
 import { homeFeatures } from "@/data/home-features";
 import Feature from "./_components/feature/feature";
-import {
-  IconArrowLeftFill,
-  IconArrowRightFill,
-} from "./_components/icons/icons";
+import { API_URL } from "@/configs/global";
+import { IconArrowRightFill } from "./_components/icons/icons";
 import { Button } from "./_components/button";
 import { BlogPostSummary } from "@/types/blog-post-summary.interface";
 import { BlogPostCardList } from "./(blog)/_components/blog-post-card-list";
+import { Suspense } from "react";
+import { CardPlaceholder } from "./_components/placeholders/card/card-placeholder";
+import { testimonials } from "@/data/testimonial";
+import { TestimonialList } from "./_components/testimonial/testimonial-list";
 
 async function getNewestCourses(count: number): Promise<CourseSummary[]> {
-  const res = await fetch(`http://localhost:3001/api/courses/newest/${count}`, {
+  const res = await fetch(`${API_URL}/courses/newest/${count}`, {
     next: { revalidate: 24 * 60 * 60 },
   });
   return res.json();
 }
 
 async function getNewestPosts(count: number): Promise<BlogPostSummary[]> {
-  const res = await fetch(`http://localhost:3001/api/blog/newest/${count}`);
+  const res = await fetch(`${API_URL}/blog/newest/${count}`);
   return res.json();
 }
 
 export default async function Home() {
-  // const newestCourses = await getNewestCourses(12);
-  const newestCoursesData = getNewestCourses(12);
-  const newestBlogPostsData = getNewestPosts(12);
+  const newestCoursesData = getNewestCourses(8);
+  const newestBlogPostsData = getNewestPosts(8);
   // Wait for the promises to resolve
   const [newestCourses, newestBlogPosts] = await Promise.all([
     newestCoursesData,
@@ -52,9 +53,11 @@ export default async function Home() {
             To stay up-to-date, learning new tips is essential!
           </p>
         </div>
-        <CourseCardList courses={newestCourses} />
+        <Suspense fallback={<CardPlaceholder count={8} className="mt-5" />}>
+          <CourseCardList courses={newestCourses} />
+        </Suspense>
       </section>
-      <section className=" my-40">
+      <section className="container my-40">
         <div className="relative pt-0 text-center">
           <div className="bg-primary pointer-events-none absolute left-1/2 aspect-square w-1/2 -translate-x-1/2 -top-96 rounded-full opacity-10 blur-3xl"></div>
 
@@ -91,8 +94,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      <section className="container px-2">
-        <div className="flex flex-col xl:flex-row gap-4 justify-center xl:justify-between items-center">
+      <section className="container  px-2">
+        <div className=" flex flex-col xl:flex-row gap-4 justify-center xl:justify-between items-center">
           <div className="text-center xl:text-left">
             <h2 className="text-2xl font-extrabold">
               Latest Educational Articles
@@ -113,6 +116,18 @@ export default async function Home() {
         </div>
         <BlogPostCardList posts={newestBlogPosts} />
       </section>
+      <div className="relative mt-32 ltr">
+        <div className="bg-primary pointer-events-none absolute bottom-0 left-1/2 aspect-square w-1/2 -translate-x-1/2 rounded-full opacity-5 -top-52 blur-3xl"></div>
+        <h2 className="text-info relative z-0 mx-auto text-3xl font-extrabold block w-fit">
+          <span className="-z-10 w-8 h-8 absolute bg-info opacity-25 -top-2 rounded-full inline-block -right-3"></span>
+          ImanLearn Student Experiences
+        </h2>
+        <p className="mb-32 text-lg text-center mt-2">
+          You're not alone here. See what other students think about
+          Imanlearns's courses.
+        </p>
+        <TestimonialList testimonials={testimonials} />
+      </div>
     </>
   );
 }
