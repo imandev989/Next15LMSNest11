@@ -2,11 +2,12 @@ import { Progress } from "@/app/_components/progress";
 import { Rating } from "@/app/_components/rating";
 import { API_URL } from "@/configs/global";
 import type { CourseDetails } from "@/types/course-details.interface";
-import { CourseAside } from "./_components";
 import { Tab } from "@/types/tab.type";
 import { Tabs } from "@/app/_components/tabs/tabs";
 import { Accordion } from "@/app/_components/accordion";
 import { Accordion as AccordionType } from "@/types/accordion";
+import { CourseAside } from "./_components/course-aside";
+import CourseComments from "./_components/comments/course-comments";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then((res) =>
@@ -44,7 +45,7 @@ export default async function CourseDetails({
     },
     {
       label: "Reviews and Questions",
-      content: "course comments",
+      content: <CourseComments />,
     },
     {
       label: "Frequently Asked Questions",
