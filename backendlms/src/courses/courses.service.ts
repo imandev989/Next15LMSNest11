@@ -80,7 +80,7 @@ export class CoursesService {
 
     // console.log('COUSERS+++>>', course);
     // Pagination: Adjust comments per page as required
-    const commentsPerPage = 2;
+    const commentsPerPage = 10;
     const skip = (page - 1) * commentsPerPage;
 
     console.log('Requested page:', page);
