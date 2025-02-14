@@ -1,15 +1,19 @@
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
+import { Comment } from './entities/comment.entity';
 
 @Injectable()
 export class CoursesService {
   constructor(
     @InjectRepository(Course)
     private readonly coursesRepository: Repository<Course>, // Injecting the Course repository
+
+    @InjectRepository(Comment)
+    private readonly commentRepository: Repository<Comment>,
   ) {}
 
   // Method to get the newest courses with a limit
@@ -47,6 +51,71 @@ export class CoursesService {
       where: { slug },
       relations: ['frequentlyAskedQuestions'], // Include the related FAQ
     });
+  }
+
+  // Get comments by course slug
+  // async getCommentsByCourseSlug(slug: string) {
+  //   const course = await this.coursesRepository.findOne({
+  //     where: { slug },
+  //     relations: ['comments'],
+  //   });
+  //   if (!course) {
+  //     throw new NotFoundException('Course not found');
+  //   }
+  //   console.log('COURSE COMENTS ===>', course.comments);
+  //   return course.comments;
+  // }
+
+  // Fetch comments by course slug with pagination
+  async getCommentsBySlug(slug: string, page: number): Promise<Comment[]> {
+    const course = await this.coursesRepository.findOne({
+      where: { slug },
+      relations: ['comments'],
+    });
+
+    // If the course is not found, throw an exception
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+
+    // console.log('COUSERS+++>>', course);
+    // Pagination: Adjust comments per page as required
+    const commentsPerPage = 2;
+    const skip = (page - 1) * commentsPerPage;
+
+    console.log('Requested page:', page);
+    console.log('Calculated skip:', skip);
+
+    // If there are no comments for the course
+    if (course.comments.length === 0) {
+      console.log('No comments found for this course.');
+      return [];
+    }
+
+    // This is way 1
+    // Paginate comments in-memory (on the already fetched array)
+
+    const paginatedComments = course.comments.slice(
+      skip,
+      skip + commentsPerPage,
+    );
+
+    // console.log('Paginated comments:', paginatedComments);
+
+    // console.log('Fetched comments:', paginatedComments);
+
+    return paginatedComments;
+
+    // this is way2
+    // Fetch the comments from the Comment table with pagination
+
+    // const comments = await this.commentRepository.find({
+    //   // where: { courseId: course.id }, // Filter by courseId
+    //   where: { course: { id: course.id } }, // Filter by course.id
+    //   skip: skip, // Skip the records based on the page
+    //   take: commentsPerPage, // Take the specified number of comments
+    // });
+    // return comments;
   }
 
   // update(id: number, updateCourseDto: UpdateCourseDto) {

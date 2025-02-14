@@ -26,9 +26,13 @@ export const CourseCard: React.FC<CourseCardProps> = ({
           height={327}
         />
       </figure>
-      <div className="mt-2 flex gap-2 font-semibold dark:text-info px-3 py-2">
-        <Badge variant="info">{recordStatus}</Badge>
-        <Badge variant="accent">{level}</Badge>
+      <div className="mt-2 flex gap-2 font-semibold dark:text-info px-1 py-2">
+        <Badge variant="info" className="text-nowrap">
+          {recordStatus}
+        </Badge>
+        <Badge variant="accent" className="text-nowrap">
+          {level}
+        </Badge>
       </div>
       <div className="card-body">
         <Link href={`/course/${slug}`}>{title}</Link>

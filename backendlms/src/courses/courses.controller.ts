@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
@@ -43,6 +44,15 @@ export class CoursesController {
     return this.coursesService.findOneBySlug(slug); // Pass slug to the service
   }
 
+  // Get comments for a course by slug with pagination
+  @Get(':slug/comments')
+  async getComments(
+    @Param('slug') slug: string, // The slug of the course
+    @Query('page') page: number, // The page number for pagination
+  ) {
+    // Call the service method to fetch the comments for the course
+    return this.coursesService.getCommentsBySlug(slug, page);
+  }
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
   //   return this.coursesService.update(+id, updateCourseDto);

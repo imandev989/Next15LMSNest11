@@ -17,7 +17,9 @@ import { BlogModule } from './blog/blog.module';
       password: 'imaniman',
       database: 'lms',
       entities: [join(__dirname, '**', 'entities', '*.entity{.ts,.js}')], // Correct the entities path
+      migrations: ['src/migration/*.ts'],
       synchronize: true, // Automatically sync DB (use only for development)
+      // logging: true,
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'static'), // Serve files from the 'static' directory

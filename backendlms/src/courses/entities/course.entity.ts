@@ -2,7 +2,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { CourseDetailsFAQ } from './course-details-faq.entity';
 import { CourseLevel } from '../enums/courseLevelEnum';
-// import { CourseDetailsFAQ } from './course-details-faq.entity';
+import { Comment } from './comment.entity';
 
 @Entity('course')
 export class Course {
@@ -71,6 +71,9 @@ export class Course {
 
   @OneToMany(() => CourseDetailsFAQ, (faq) => faq.course, { cascade: true })
   frequentlyAskedQuestions: CourseDetailsFAQ[];
+
+  @OneToMany(() => Comment, (comment) => comment.course, { cascade: true })
+  comments: Comment[];
 }
 
 // import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
