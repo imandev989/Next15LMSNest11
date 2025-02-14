@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
 import { Comment } from './entities/comment.entity';
+import console from 'console';
 
 @Injectable()
 export class CoursesService {
@@ -67,7 +68,7 @@ export class CoursesService {
   // }
 
   // Fetch comments by course slug with pagination
-  async getCommentsBySlug(slug: string, page: number): Promise<Comment[]> {
+  async getCommentsBySlug(slug: string, page: number): Promise<Object> {
     const course = await this.coursesRepository.findOne({
       where: { slug },
       relations: ['comments'],
@@ -80,42 +81,68 @@ export class CoursesService {
 
     // console.log('COUSERS+++>>', course);
     // Pagination: Adjust comments per page as required
-    const commentsPerPage = 10;
-    const skip = (page - 1) * commentsPerPage;
+    const commentsPerPage = 2;
+    // const skip = (page - 1) * commentsPerPage;
+    const skip = (Number(page) - 1) * commentsPerPage; // Ensure page is a number
 
-    console.log('Requested page:', page);
-    console.log('Calculated skip:', skip);
+    // console.log('Requested page:', page);
+    // console.log('Calculated skip:', skip);
 
     // If there are no comments for the course
-    if (course.comments.length === 0) {
+    if (!course.comments || course.comments.length === 0) {
       console.log('No comments found for this course.');
-      return [];
+      return { comments: [], nextPage: null }; // Return empty array and null nextPage
     }
 
     // This is way 1
     // Paginate comments in-memory (on the already fetched array)
 
-    const paginatedComments = course.comments.slice(
-      skip,
-      skip + commentsPerPage,
-    );
+    // const paginatedComments = course.comments.slice(
+    //   skip,
+    //   skip + commentsPerPage,
+    // );
 
     // console.log('Paginated comments:', paginatedComments);
 
     // console.log('Fetched comments:', paginatedComments);
 
-    return paginatedComments;
+    // return paginatedComments;
 
     // this is way2
     // Fetch the comments from the Comment table with pagination
 
-    // const comments = await this.commentRepository.find({
-    //   // where: { courseId: course.id }, // Filter by courseId
-    //   where: { course: { id: course.id } }, // Filter by course.id
-    //   skip: skip, // Skip the records based on the page
-    //   take: commentsPerPage, // Take the specified number of comments
-    // });
-    // return comments;
+    const comments = await this.commentRepository.find({
+      // where: { courseId: course.id }, // Filter by courseId
+      where: { course: { id: course.id } }, // Filter by course.id
+      skip: skip, // Skip the records based on the page
+      take: commentsPerPage, // Take the specified number of comments
+    });
+
+    // Check if there are more comments for the next page
+    const totalComments = await this.commentRepository.count({
+      where: { course: { id: course.id } }, // Filter by course.id
+    });
+
+    // p = parseInt(page);
+    // console.log('page', typeof page);
+
+    // Calculate nextPage: if there are more comments, increment the page number
+    // const nextPage = totalComments > skip + comments.length ? page + 1 : null;
+    const nextPage =
+      totalComments > skip + comments.length ? Number(page) + 1 : null;
+
+    // Correct nextPage calculation
+    // const nextPage = skip + comments.length < totalComments ? page + 1 : null;
+
+    return {
+      comments,
+      nextPage, // Return the next page number, or null if there are no more comments
+    };
+
+    // return {
+    //   comments,
+    //   nextPage, // Return the next page number, or null if there are no more comments
+    // };
   }
 
   // update(id: number, updateCourseDto: UpdateCourseDto) {
