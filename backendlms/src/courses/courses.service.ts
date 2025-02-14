@@ -41,10 +41,14 @@ export class CoursesService {
   //   return `This action returns all courses`;
   // }
 
-  // Method to find a course by its slug
+  // Method to find a course by its slug along with FAQs
   async findOneBySlug(slug: string): Promise<Course | undefined> {
-    return this.coursesRepository.findOne({ where: { slug } });
+    return this.coursesRepository.findOne({
+      where: { slug },
+      relations: ['frequentlyAskedQuestions'], // Include the related FAQ
+    });
   }
+
   // update(id: number, updateCourseDto: UpdateCourseDto) {
   //   return `This action updates a #${id} course`;
   // }

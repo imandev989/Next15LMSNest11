@@ -2,6 +2,11 @@ import { Progress } from "@/app/_components/progress";
 import { Rating } from "@/app/_components/rating";
 import { API_URL } from "@/configs/global";
 import type { CourseDetails } from "@/types/course-details.interface";
+import { CourseAside } from "./_components";
+import { Tab } from "@/types/tab.type";
+import { Tabs } from "@/app/_components/tabs/tabs";
+import { Accordion } from "@/app/_components/accordion";
+import { Accordion as AccordionType } from "@/types/accordion";
 
 export async function generateStaticParams() {
   const slugs = await fetch(`${API_URL}/courses/slugs`).then((res) =>
@@ -22,8 +27,31 @@ export default async function CourseDetails({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const course = await getCourse(slug);
+  // console.log("COUSRES==>", course);
+  console.log("faqs==>", course);
+
+  const faqs: AccordionType[] = course.frequentlyAskedQuestions.map((faq) => ({
+    id: faq.id,
+    title: faq.question,
+    content: faq.answer,
+  }));
+  const tabs: Tab[] = [
+    {
+      label: "Course Details",
+      content: course.description,
+    },
+    {
+      label: "Reviews and Questions",
+      content: "course comments",
+    },
+    {
+      label: "Frequently Asked Questions",
+      content: <Accordion data={faqs} />,
+    },
+  ];
+
   return (
     <div className="h-96 container grid grid-cols-10 grid-rows-[1fr 1fr] gap-10 py-10">
       <div className="bg-primary pointer-events-none absolute right-0 aspect-square w-1/2   rounded-full opacity-10 blur-3xl"></div>
@@ -44,8 +72,14 @@ export default async function CourseDetails({
         <Progress value={75} variant="error" size="tiny" />
         <Progress value={75} variant="info" size="tiny" />
       </div>
-      <div className="col-span-10 xl:col-span-6 bg-info"></div>
-      <div className="col-span-10 xl:col-span-4 bg-warning"></div>
+      <div className="col-span-10 xl:col-span-6">
+        <div className="col-span-10 xl:col-span-3">
+          <Tabs tabs={tabs} />
+        </div>
+      </div>
+      <div className="col-span-10 xl:col-span-4 ">
+        <CourseAside {...course} />
+      </div>
     </div>
   );
 }

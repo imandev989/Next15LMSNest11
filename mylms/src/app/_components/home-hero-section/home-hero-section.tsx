@@ -34,10 +34,11 @@ export const HomeHeroSection: React.FC = () => {
           />
         </div>
         <Image
+          // src="/gifs/developer.gif"
           src="/images/programmer-landing.svg"
           alt="Programmer Illustration"
-          width={702}
-          height={521}
+          width={800}
+          height={800}
         />
         {/* <Lottie
           loop

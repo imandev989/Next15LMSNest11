@@ -41,7 +41,7 @@ export const testimonials: Testimonial[] = [
     name: "Ali Şahin",
     skills: "React & Next.js Developer",
     description:
-      "I’ve taken all the React development courses from Imanlearn, and I can easily say it was the best decision for my progress in web development. The training is excellent and comprehensive. Hats off to Engineer Sepahvand!",
+      "I’ve taken all the React development courses from Imanlearn, and I can easily say it was the best decision for my progress in web development. The training is excellent and comprehensive. Hats off to Engineer Namazi!",
   },
   {
     image: "/images/testimonial/three.jpg",
@@ -55,7 +55,7 @@ export const testimonials: Testimonial[] = [
     name: "Ayşe Yılmaz",
     skills: "React Developer",
     description:
-      "Imanlearn has been a great opportunity for me to learn React. With Mr. Sepahvand's teaching, I advanced quickly. Imanlearn is truly the place for deep, up-to-date learning of new technologies. Thank you!",
+      "Imanlearn has been a great opportunity for me to learn React. With Mr. Namazi's teaching, I advanced quickly. Imanlearn is truly the place for deep, up-to-date learning of new technologies. Thank you!",
   },
   {
     image: "/images/testimonial/twelve.jpg",

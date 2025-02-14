@@ -1,6 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+// import { CourseLevel } from '@/enums/course-level.enum';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { CourseDetailsFAQ } from './course-details-faq.entity';
+import { CourseLevel } from '../enums/courseLevelEnum';
+// import { CourseDetailsFAQ } from './course-details-faq.entity';
 
-@Entity()
+@Entity('course')
 export class Course {
   @PrimaryGeneratedColumn()
   id: number;
@@ -8,48 +12,119 @@ export class Course {
   @Column()
   title: string;
 
-  @Column()
-  courseCategoryId: number;
+  @Column({ unique: true })
+  slug: string; // New slug field added
+
+  @Column({ type: 'float', nullable: true })
+  basePrice?: number;
 
   @Column()
-  duration: string;
+  numberOfLectures: number;
 
   @Column()
   level: string;
 
   @Column()
-  levelNumber: number;
+  numOfStudents: number;
 
-  @Column('decimal')
-  averageReviewRating: number;
+  @Column()
+  duration: string;
+
+  @Column({ default: false })
+  isDownloadable: boolean;
 
   @Column()
   numOfReviews: number;
 
-  @Column()
-  coverImageId: number;
-
-  @Column()
-  recordStatus: string;
-
-  @Column()
-  slug: string;
+  @Column({ default: false })
+  isFree: boolean;
 
   @Column()
   subTitle: string;
 
+  @Column({ type: 'float' })
+  averageReviewRating: number;
+
+  @Column({ nullable: true })
+  profileImageId?: number;
+
   @Column()
-  isFree: boolean;
+  authorName: string;
 
-  @Column('decimal', { nullable: true })
-  basePrice?: number;
-
-  @Column('decimal', { nullable: true })
-  discountedPrice?: number;
+  @Column()
+  recordStatus: string;
 
   @Column({ nullable: true })
-  discountRemainingTime?: string;
+  authorSpecialty?: string;
 
   @Column({ nullable: true })
-  discountType?: string;
+  videoUrl?: string;
+
+  @Column()
+  coverImageId: number;
+
+  @Column({ type: 'text' })
+  description: string;
+
+  @Column({ type: 'enum', enum: CourseLevel })
+  levelNumber: CourseLevel;
+
+  @OneToMany(() => CourseDetailsFAQ, (faq) => faq.course, { cascade: true })
+  frequentlyAskedQuestions: CourseDetailsFAQ[];
 }
+
+// import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+
+// @Entity()
+// export class Course {
+//   @PrimaryGeneratedColumn()
+//   id: number;
+
+//   @Column()
+//   title: string;
+
+//   @Column()
+//   courseCategoryId: number;
+
+//   @Column()
+//   duration: string;
+
+//   @Column()
+//   level: string;
+
+//   @Column()
+//   levelNumber: number;
+
+//   @Column('decimal')
+//   averageReviewRating: number;
+
+//   @Column()
+//   numOfReviews: number;
+
+//   @Column()
+//   coverImageId: number;
+
+//   @Column()
+//   recordStatus: string;
+
+//   @Column()
+//   slug: string;
+
+//   @Column()
+//   subTitle: string;
+
+//   @Column()
+//   isFree: boolean;
+
+//   @Column('decimal', { nullable: true })
+//   basePrice?: number;
+
+//   @Column('decimal', { nullable: true })
+//   discountedPrice?: number;
+
+//   @Column({ nullable: true })
+//   discountRemainingTime?: string;
+
+//   @Column({ nullable: true })
+//   discountType?: string;
+// }

@@ -1,61 +1,153 @@
 import {
   IsString,
-  IsInt,
-  IsOptional,
+  IsNumber,
   IsBoolean,
-  IsDecimal,
+  IsOptional,
+  IsEnum,
+  ValidateNested,
+  IsArray,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+import { CourseLevel } from '../enums/courseLevelEnum';
+// import { CourseLevel } from '@/enums/course-level.enum';
+
+class CourseDetailsFAQDto {
+  @IsString()
+  question: string;
+
+  @IsString()
+  answer: string;
+}
 
 export class CreateCourseDto {
   @IsString()
   title: string;
 
-  @IsInt()
-  courseCategoryId: number;
-
   @IsString()
-  duration: string;
+  slug: string;
+
+  @IsNumber()
+  @IsOptional()
+  basePrice?: number;
+
+  @IsNumber()
+  numberOfLectures: number;
 
   @IsString()
   level: string;
 
-  @IsInt()
-  levelNumber: number;
+  @IsNumber()
+  numOfStudents: number;
 
-  @IsDecimal() // Allow decimal for averageReviewRating
-  averageReviewRating: number;
+  @IsString()
+  duration: string;
 
-  @IsInt()
+  @IsBoolean()
+  isDownloadable: boolean;
+
+  @IsNumber()
   numOfReviews: number;
 
-  @IsInt()
-  coverImageId: number;
+  @IsBoolean()
+  isFree: boolean;
+
+  @IsString()
+  subTitle: string;
+
+  @IsNumber()
+  averageReviewRating: number;
+
+  @IsNumber()
+  @IsOptional()
+  profileImageId?: number;
+
+  @IsString()
+  authorName: string;
 
   @IsString()
   recordStatus: string;
 
   @IsString()
-  slug: string;
+  @IsOptional()
+  authorSpecialty?: string;
 
   @IsString()
-  subTitle: string;
-
-  @IsBoolean()
-  isFree: boolean;
-
   @IsOptional()
-  @IsDecimal()
-  basePrice?: number;
+  videoUrl?: string;
 
-  @IsOptional()
-  @IsDecimal()
-  discountedPrice?: number;
+  @IsNumber()
+  coverImageId: number;
 
-  @IsOptional()
   @IsString()
-  discountRemainingTime?: string;
+  description: string;
 
-  @IsOptional()
-  @IsString()
-  discountType?: string;
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => CourseDetailsFAQDto)
+  frequentlyAskedQuestions: CourseDetailsFAQDto[];
+
+  @IsEnum(CourseLevel)
+  levelNumber: CourseLevel;
 }
+
+// import {
+//   IsString,
+//   IsInt,
+//   IsOptional,
+//   IsBoolean,
+//   IsDecimal,
+// } from 'class-validator';
+
+// export class CreateCourseDto {
+//   @IsString()
+//   title: string;
+
+//   @IsInt()
+//   courseCategoryId: number;
+
+//   @IsString()
+//   duration: string;
+
+//   @IsString()
+//   level: string;
+
+//   @IsInt()
+//   levelNumber: number;
+
+//   @IsDecimal() // Allow decimal for averageReviewRating
+//   averageReviewRating: number;
+
+//   @IsInt()
+//   numOfReviews: number;
+
+//   @IsInt()
+//   coverImageId: number;
+
+//   @IsString()
+//   recordStatus: string;
+
+//   @IsString()
+//   slug: string;
+
+//   @IsString()
+//   subTitle: string;
+
+//   @IsBoolean()
+//   isFree: boolean;
+
+//   @IsOptional()
+//   @IsDecimal()
+//   basePrice?: number;
+
+//   @IsOptional()
+//   @IsDecimal()
+//   discountedPrice?: number;
+
+//   @IsOptional()
+//   @IsString()
+//   discountRemainingTime?: string;
+
+//   @IsOptional()
+//   @IsString()
+//   discountType?: string;
+// }
