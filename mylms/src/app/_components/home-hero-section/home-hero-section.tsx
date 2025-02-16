@@ -34,7 +34,7 @@ export const HomeHeroSection: React.FC = () => {
           />
         </div>
         <Image
-          // src="/gifs/developer.gif"
+          // src="/gifs/developer01.gif"
           src="/images/programmer-landing.svg"
           alt="Programmer Illustration"
           width={800}

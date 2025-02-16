@@ -31,7 +31,7 @@ export default async function CourseDetails({
   const { slug } = await params;
   const course = await getCourse(slug);
   // console.log("COUSRES==>", course);
-  console.log("faqs==>", course);
+  // console.log("faqs==>", course);
 
   const faqs: AccordionType[] = course.frequentlyAskedQuestions.map((faq) => ({
     id: faq.id,

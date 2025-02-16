@@ -33,7 +33,7 @@ export default async function Home() {
     newestCoursesData,
     newestBlogPostsData,
   ]);
-  console.log(newestBlogPosts);
+  // console.log(newestBlogPosts);
   return (
     <>
       <HomeHeroSection />
