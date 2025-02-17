@@ -4,9 +4,10 @@ import { useParams } from "next/navigation";
 import { useCourseComments } from "../../_api/get-comments";
 import { TextPlaceholder } from "@/app/_components/placeholders";
 import { Comment } from "@/app/_components/comment";
-import pages from "next/dist/build/templates/pages";
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { IconRefresh } from "@/app/_components/icons/icons";
+import { Button } from "@/app/_components/button";
 
 const CourseComments = () => {
   const { ref, inView } = useInView({});
@@ -34,25 +35,25 @@ const CourseComments = () => {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  //   if (error) {
-  //     return (
-  //         <>
-  //             <p>Error connecting to the server</p>
-  //             <div className="text-center mt-3">
-  //                 <Button
-  //                     variant="neutral"
-  //                     className="font-semibold"
-  //                     isOutline={true}
-  //                     shape="wide"
-  //                     onClick={() => refetch()}
-  //                 >
-  //                     <IconRefresh />
-  //                     Retry
-  //                 </Button>
-  //             </div>
-  //         </>
-  //     );
-  // }
+  if (error) {
+    return (
+      <>
+        <p>Error connecting to the server</p>
+        <div className="text-center mt-3">
+          <Button
+            variant="neutral"
+            className="font-semibold"
+            isOutline={true}
+            shape="wide"
+            onClick={() => refetch()}
+          >
+            <IconRefresh />
+            Retry
+          </Button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <div>
