@@ -3,7 +3,7 @@ import { QueryCache, QueryClient } from "@tanstack/react-query";
 export const queryClient = new QueryClient({
   queryCache: new QueryCache({
     onError: (error) => {
-      debugger;
+      // debugger;
       console.error("Global Query Error:", error);
       // Show a global notification or handle the error
     },
