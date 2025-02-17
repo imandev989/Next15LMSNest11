@@ -20,41 +20,41 @@ const getComments = ({
   return readData(url);
 };
 
-// export const useCourseComments = ({ params }: GetCommentsOptions) => {
-//   const {
-//     data,
-//     error,
-//     isFetchingNextPage,
-//     fetchNextPage,
-//     hasNextPage,
-//     refetch,
-//   } = useInfiniteQuery({
-//     queryKey: ["courseComments"],
-//     queryFn: ({ pageParam }) =>
-//       getComments({ params: { ...params, page: pageParam } }),
-//     getNextPageParam: (lastPage) => lastPage.nextPage,
-//     initialPageParam: 1,
-//     staleTime: 5 * 60 * 60 * 1000,
-//     gcTime: 6 * 60 * 68 * 1000,
-//   });
-//   // console.log("FETCH RESUALT", data);
-//   return {
-//     data,
-//     error,
-//     isFetchingNextPage,
-//     fetchNextPage,
-//     hasNextPage,
-//     refetch,
-//   };
-// };
-
 export const useCourseComments = ({ params }: GetCommentsOptions) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["courseComments"],
-    queryFn: () => getComments({ params }),
+  const {
+    data,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: ["courseComments", params.slug],
+    queryFn: ({ pageParam }) =>
+      getComments({ params: { ...params, page: pageParam } }),
+    getNextPageParam: (lastPage) => lastPage.nextPage,
+    initialPageParam: 1,
     staleTime: 5 * 60 * 60 * 1000,
     gcTime: 6 * 60 * 68 * 1000,
   });
-  console.log("FETCH RESUALT", data);
-  return { data, isLoading };
+  // console.log("FETCH RESUALT", data);
+  return {
+    data,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    refetch,
+  };
 };
+
+// export const useCourseComments = ({ params }: GetCommentsOptions) => {
+//   const { data, isLoading } = useQuery({
+//     queryKey: ["courseComments"],
+//     queryFn: () => getComments({ params }),
+//     staleTime: 5 * 60 * 60 * 1000,
+//     gcTime: 6 * 60 * 68 * 1000,
+//   });
+//   console.log("FETCH RESUALT", data);
+//   return { data, isLoading };
+// };

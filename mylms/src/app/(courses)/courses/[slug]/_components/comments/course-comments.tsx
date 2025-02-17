@@ -4,14 +4,19 @@ import { useParams } from "next/navigation";
 import { useCourseComments } from "../../_api/get-comments";
 import { TextPlaceholder } from "@/app/_components/placeholders";
 import { Comment } from "@/app/_components/comment";
+import pages from "next/dist/build/templates/pages";
+import { Fragment, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 const CourseComments = () => {
+  const { ref, inView } = useInView({});
   const { slug } = useParams();
 
   const {
     data: comments,
     error,
     isFetchingNextPage,
+    isFetching,
     fetchNextPage,
     hasNextPage,
     refetch,
@@ -21,13 +26,54 @@ const CourseComments = () => {
       page: 1,
     },
   });
+  // console.log("COMMENTS====>", comments.pages);
+
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
+
+  //   if (error) {
+  //     return (
+  //         <>
+  //             <p>Error connecting to the server</p>
+  //             <div className="text-center mt-3">
+  //                 <Button
+  //                     variant="neutral"
+  //                     className="font-semibold"
+  //                     isOutline={true}
+  //                     shape="wide"
+  //                     onClick={() => refetch()}
+  //                 >
+  //                     <IconRefresh />
+  //                     Retry
+  //                 </Button>
+  //             </div>
+  //         </>
+  //     );
+  // }
 
   return (
-    <>
-      {comments?.comments.map((comment) => (
-        <Comment key={`comment-${comment.id}`} {...comment} variant="info" />
+    <div>
+      {comments?.pages?.map((currentPage) => (
+        <Fragment key={`comment-page-${currentPage}`}>
+          {currentPage.comments.map((comment) => (
+            <Comment
+              key={`comment-${comment.id}`}
+              {...comment}
+              variant="info"
+            />
+          ))}
+        </Fragment>
       ))}
-    </>
+
+      {(isFetching || hasNextPage) && (
+        <div ref={ref}>
+          <TextPlaceholder />
+        </div>
+      )}
+    </div>
   );
 };
 
