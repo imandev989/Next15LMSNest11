@@ -8,6 +8,7 @@ import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { IconRefresh } from "@/app/_components/icons/icons";
 import { Button } from "@/app/_components/button";
+import { Alert } from "@/app/_components/alert";
 
 const CourseComments = () => {
   const { ref, inView } = useInView({});
@@ -38,7 +39,7 @@ const CourseComments = () => {
   if (error) {
     return (
       <>
-        <p>Error connecting to the server</p>
+        <Alert variant="error">Error connecting to the server</Alert>
         <div className="text-center mt-3">
           <Button
             variant="neutral"
