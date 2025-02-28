@@ -36,7 +36,7 @@ export default async function CourseDetails({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = params;
+  const { slug } = await params;
   const courseData = getCourse(slug);
   const courseCurriculumData = getCurriculum(slug);
 
