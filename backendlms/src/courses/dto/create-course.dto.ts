@@ -88,6 +88,10 @@ export class CreateCourseDto {
 
   @IsEnum(CourseLevel)
   levelNumber: CourseLevel;
+
+  @IsArray()
+  @IsString({ each: true })
+  lectures: string[];
 }
 
 // import {

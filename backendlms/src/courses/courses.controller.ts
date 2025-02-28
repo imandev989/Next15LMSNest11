@@ -11,6 +11,8 @@ import {
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
+import { CreateCurriculumDto } from './dto/create-curriculum.dto';
+import { Curriculum } from './entities/curriculum.entity';
 
 @Controller('api/courses')
 export class CoursesController {
@@ -62,4 +64,28 @@ export class CoursesController {
   // remove(@Param('id') id: string) {
   //   return this.coursesService.remove(+id);
   // }
+
+  // Endpoint to create a new curriculum for a course
+  // @Post(':slug/curriculum')
+  // async createCurriculum(
+  //   @Param('slug') slug: string,
+  //   @Body() createCurriculumDtos: CreateCurriculumDto[], // Accepts an array
+  // ) {
+  //   createCurriculumDtos.forEach((dto) => console.log('A', dto));
+  //   return this.coursesService.createCurriculums(slug, createCurriculumDtos);
+  // }
+  @Post(':slug/curriculum')
+  async createCurriculum(
+    @Param('slug') slug: string,
+    @Body() createCurriculumDto: CreateCurriculumDto,
+  ) {
+    return this.coursesService.createCurriculums(slug, createCurriculumDto);
+  }
+
+  @Get(':slug/curriculum')
+  async getCurriculumBySlug(
+    @Param('slug') slug: string,
+  ): Promise<Curriculum[]> {
+    return this.coursesService.getCurriculumBySlug(slug);
+  }
 }

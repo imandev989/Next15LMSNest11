@@ -2,6 +2,8 @@
 
 export { default as IconArrowLeftFill } from "./src/arrow-left-fill";
 export { default as IconArrowLeft } from "./src/arrow-left";
+export { default as IconArrowRightFill } from "./src/arrow-right-fill";
+export { default as IconArrowRight } from "./src/arrow-right";
 export { default as IconBasket } from "./src/basket";
 export { default as IconCalendar } from "./src/calendar";
 export { default as IconCheck } from "./src/check";
@@ -16,7 +18,6 @@ export { default as IconDownload } from "./src/download";
 export { default as IconEnrollment } from "./src/enrollment";
 export { default as IconEye } from "./src/eye";
 export { default as IconFullScreen } from "./src/full-screen";
-export { default as IconInfo } from "./src/info";
 export { default as IconLeft } from "./src/left";
 export { default as IconLevel } from "./src/level";
 export { default as IconLogout } from "./src/logout";
@@ -32,3 +33,4 @@ export { default as IconToc } from "./src/toc";
 export { default as IconToman } from "./src/toman";
 export { default as IconUserProfile } from "./src/user-profile";
 export { default as IconVideo } from "./src/video";
+export { default as IconInfo } from "./src/info";

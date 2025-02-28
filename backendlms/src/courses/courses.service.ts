@@ -6,6 +6,9 @@ import { Repository } from 'typeorm';
 import { Course } from './entities/course.entity';
 import { Comment } from './entities/comment.entity';
 import console from 'console';
+import { Curriculum } from './entities/curriculum.entity';
+import { CreateCurriculumDto } from './dto/create-curriculum.dto';
+import { Lecture } from './entities/lecture.entity';
 
 @Injectable()
 export class CoursesService {
@@ -15,6 +18,11 @@ export class CoursesService {
 
     @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
+    @InjectRepository(Curriculum)
+    private readonly curriculumRepository: Repository<Curriculum>, // Inject the Curriculum repository
+
+    @InjectRepository(Lecture)
+    private readonly lectureRepository: Repository<Lecture>, // Inject the Lecture repository
   ) {}
 
   // Method to get the newest courses with a limit
@@ -33,7 +41,6 @@ export class CoursesService {
 
   // Method to get all slugs as an array of strings
   async findAll(): Promise<string[]> {
-    // Use select to only fetch the slugs, then map to an array of slugs
     const courses = await this.coursesRepository.find({ select: ['slug'] });
     return courses.map((course) => course.slug); // Map to an array of slugs
   }
@@ -46,14 +53,13 @@ export class CoursesService {
   //   return `This action returns all courses`;
   // }
 
-  // Method to find a course by its slug along with FAQs
+  // Method to find a course by its slug
   async findOneBySlug(slug: string): Promise<Course | undefined> {
     return this.coursesRepository.findOne({
       where: { slug },
       relations: ['frequentlyAskedQuestions'], // Include the related FAQ
     });
   }
-
   // Get comments by course slug
   // async getCommentsByCourseSlug(slug: string) {
   //   const course = await this.coursesRepository.findOne({
@@ -68,7 +74,7 @@ export class CoursesService {
   // }
 
   // Fetch comments by course slug with pagination
-  async getCommentsBySlug(slug: string, page: number): Promise<Object> {
+  async getCommentsBySlug(slug: string, page: number): Promise<object> {
     const course = await this.coursesRepository.findOne({
       where: { slug },
       relations: ['comments'],
@@ -152,4 +158,75 @@ export class CoursesService {
   // remove(id: number) {
   //   return `This action removes a #${id} course`;
   // }
+
+  //--------------------------------------------
+
+  // Method to create a new curriculum for a course
+  async createCurriculums(
+    slug: string,
+    createCurriculumDto: CreateCurriculumDto,
+  ) {
+    const course = await this.coursesRepository.findOne({ where: { slug } });
+    if (!course) {
+      throw new NotFoundException('Course not found');
+    }
+
+    if (
+      !createCurriculumDto.lectures ||
+      !Array.isArray(createCurriculumDto.lectures)
+    ) {
+      throw new Error('Lectures must be an array');
+    }
+
+    // return course.id;
+    // Create the curriculum
+    const curriculum = this.curriculumRepository.create({
+      title: createCurriculumDto.title,
+      duration: createCurriculumDto.duration,
+      numOfLectures: createCurriculumDto.lectures.length,
+      course: course,
+    });
+
+    // Save curriculum to get the ID
+    const savedCurriculum = await this.curriculumRepository.save(curriculum);
+
+    // Create and save lectures associated with the curriculum
+    const lectures = createCurriculumDto.lectures.map((lectureDto) =>
+      this.lectureRepository.create({
+        ...lectureDto,
+        curriculum: savedCurriculum,
+      }),
+    );
+
+    await this.lectureRepository.save(lectures);
+
+    return { ...savedCurriculum, lectures };
+  }
+
+  // Get All Curriculum
+
+  async getCurriculumBySlug(slug: string): Promise<any[]> {
+    const course = await this.coursesRepository.findOne({
+      where: { slug },
+      relations: ['curriculums', 'curriculums.lectures'], // Loading curriculum and related lectures
+    });
+
+    if (!course) {
+      throw new NotFoundException(`Course with slug "${slug}" not found`);
+    }
+
+    // Map the course curriculum data to the required format
+    return course.curriculums.map((curriculum) => ({
+      id: curriculum.id,
+      title: curriculum.title,
+      numOfLectures: curriculum.numOfLectures,
+      duration: curriculum.duration,
+      lectures: curriculum.lectures.map((lecture) => ({
+        title: lecture.title,
+        duration: lecture.duration,
+        description: lecture.description,
+        videoSize: lecture.videoSize,
+      })),
+    }));
+  }
 }
