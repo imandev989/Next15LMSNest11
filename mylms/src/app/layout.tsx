@@ -2,6 +2,8 @@
 // import Header from "./_components/header/header";
 
 import QueryProvider from "@/providers/react-query-provider";
+import NextTopLoader from "nextjs-toploader";
+
 // import { Footer } from "./_components/footer";
 import Header from "./_components/header/header";
 import "./globals.css";
@@ -69,6 +71,8 @@ export default function RootLayout({
     // <html dir="rtl" className={`${yekanbakh.variable} ${figtree.variable}`}>
     <html className={`dark ${figtree.variable}`}>
       <body className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content bg-white text-base-100">
+        <NextTopLoader showSpinner={false} color="var(--color-error)" />
+
         <QueryProvider>
           <Header />
           <main>{children}</main>
