@@ -6,6 +6,7 @@ import { CoursesModule } from './courses/courses.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { BlogModule } from './blog/blog.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -26,7 +27,8 @@ import { BlogModule } from './blog/blog.module';
       serveRoot: '/static', // Expose static files at '/static'
     }),
     CoursesModule,
-    BlogModule, // Your CoursesModule
+    BlogModule,
+    AuthModule, // Your CoursesModule
   ],
   controllers: [AppController],
   providers: [AppService],
