@@ -20,9 +20,9 @@ export class AuthController {
   signIn(@Body() signInDto: SignInDto) {
     const { mobile } = signInDto;
 
-    if (!mobile || mobile !== '09355352071') {
-      throw new HttpException('Invalid mobile number', HttpStatus.BAD_REQUEST);
-    }
+    // if (!mobile || mobile !== '09355352071') {
+    //   throw new HttpException('Invalid mobile number', HttpStatus.BAD_REQUEST);
+    // }
 
     const { canRequest, timeLeft } = this.authService.canRequestCode(mobile);
 
