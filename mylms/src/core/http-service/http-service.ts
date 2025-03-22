@@ -17,6 +17,7 @@ const httpService = axios.create({
 
 httpService.interceptors.response.use(
   (response) => {
+    console.log("RESPOSN", response);
     return response;
   },
   (error) => {

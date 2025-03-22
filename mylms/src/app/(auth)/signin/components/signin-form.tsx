@@ -6,6 +6,10 @@ import { useForm } from "react-hook-form";
 import { TextInput } from "@/app/_components/form-input";
 import { useSignIn } from "../_api/signin";
 import { useRouter } from "next/navigation";
+import {
+  showNotification,
+  useNotificationStore,
+} from "@/stores/notification.store";
 
 const SignInForm = () => {
   const {
@@ -17,19 +21,40 @@ const SignInForm = () => {
 
   const router = useRouter();
 
+  const showNotification = useNotificationStore(
+    (state) => state.showNotification
+  );
+
   const signIn = useSignIn({
     onSuccess: () => {
       router.push(`/verify?mobile=${getValues("mobile")}`);
+      showNotification({
+        message: "A verification code has been sent to your number",
+        type: "info",
+      });
     },
   });
 
   const onSubmit = (data: SignIn) => {
+    console.log("DATA", data);
     signIn.submit(data);
+    // signIn.mutate(data); // Use mutate if using react-query
   };
+
+  // const showNotification = useNotificationStore(
+  //   (state) => state.showNotification
+  // );
+
+  // useEffect(() => {
+  //   showNotification({
+  //     type: "success",
+  //     message: "Operation completed successfully",
+  //   });
+  // }, []);
 
   return (
     <>
-      <h5 className="text-2xl">Sign In | Sign Up</h5>
+      <h5 className="text-2xl">Sign In | Register</h5>
       <p className="mt-2">The amazing world of programming awaits you!</p>
       <form
         className="flex flex-col gap-6 mt-16"
@@ -61,14 +86,3 @@ const SignInForm = () => {
 };
 
 export default SignInForm;
-
-{
-  /* <Textbox
-          {...register("mobile", { required: "Mobile number is required" })}
-          placeholder="Mobile Number"
-          dir="ltr"
-        />
-        {errors.mobile && (
-          <span className="text-red-500">{errors.mobile.message}</span>
-        )} */
-}

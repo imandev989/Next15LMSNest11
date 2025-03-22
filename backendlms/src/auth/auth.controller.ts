@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignInDto } from './dto/create-auth.dto';
+import { response } from 'express';
 // import { UpdateAuthDto } from './dto/update-auth.dto';
 
 @Controller('api/signin')
@@ -23,6 +24,10 @@ export class AuthController {
     const { canRequest, timeLeft } = this.authService.canRequestCode(mobile);
 
     if (!canRequest) {
+      // return {
+      //   code: null,
+      //   message: 'You must try to sign in 2 minutes later',
+      // };
       throw new HttpException(
         {
           message: 'You must try to sign in 2 minutes later',
@@ -66,3 +71,4 @@ export class AuthController {
   //   return this.authService.remove(+id);
   // }
 }
+// sss

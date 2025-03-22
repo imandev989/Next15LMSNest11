@@ -9,6 +9,7 @@ import Header from "./_components/header/header";
 import "./globals.css";
 
 import { Figtree } from "next/font/google";
+import { Notifications } from "./_components/notification/notifications";
 // import localFont from "next/font/local";
 
 const figtree = Figtree({
@@ -72,7 +73,7 @@ export default function RootLayout({
     <html className={`dark ${figtree.variable}`}>
       <body className="min-h-screen grid grid-rows-[80px_1fr_auto] dark:bg-base-100 dark:text-base-content bg-white text-base-100">
         <NextTopLoader showSpinner={false} color="var(--color-error)" />
-
+        <Notifications />
         <QueryProvider>
           <Header />
           <main>{children}</main>

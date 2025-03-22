@@ -17,7 +17,7 @@ export const badRequestErrorStrategy: ApiErrorHandler = (errorData) => {
 };
 
 export const validationErrorStrategy: ApiErrorHandler = (errorData) => {
-  debugger;
+  // debugger;
   throw { ...errorData } as ValidationError;
 };
 
