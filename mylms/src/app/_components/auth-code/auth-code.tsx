@@ -115,6 +115,7 @@ const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(
       inputs.push(
         <input
           type="text"
+          key={i}
           maxLength={1}
           className={classes}
           disabled={isDisabled}
