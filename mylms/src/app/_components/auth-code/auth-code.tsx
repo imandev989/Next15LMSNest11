@@ -131,7 +131,7 @@ const AuthCode = forwardRef<AuthCodeRef, AuthCodeProps>(
 
     return (
       <>
-        <div className={`flex gap-4 flex-row-reverse `}>{inputs}</div>
+        <div className={`flex gap-4 flex-row `}>{inputs}</div>
       </>
     );
   }
